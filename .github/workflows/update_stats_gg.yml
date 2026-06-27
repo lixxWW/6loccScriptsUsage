@@ -1,0 +1,31 @@
+name: Update GG Live Telemetry Stats
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Ogni ora al minuto 37
+    - cron: '37 * * * *'
+  workflow_dispatch:
+
+jobs:
+  update-gg-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run GG Stats Updater Script
+        env:
+          SUPABASE_URL:        ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY:        ${{ secrets.SUPABASE_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL_GG }}
+          DISCORD_MESSAGE_ID:  ${{ secrets.DISCORD_MESSAGE_ID_GG }}
+        run: node discord_stats_bot_gg.js

@@ -1,0 +1,32 @@
+name: Update Live Telemetry Stats
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    # Esegui ogni ora al minuto 0
+    - cron: '37 * * * *'
+  workflow_dispatch:
+    # Consente l'avvio manuale dalla scheda Actions su GitHub
+  
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Run Stats Updater Script
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_MESSAGE_ID: ${{ secrets.DISCORD_MESSAGE_ID }}
+        run: node discord_stats_bot.js

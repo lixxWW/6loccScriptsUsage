@@ -1,0 +1,14 @@
+# Ignore everything by default
+*
+
+# Allow the gitignore itself
+!.gitignore
+
+# Allow the stats bot scripts
+!discord_stats_bot.js
+!discord_stats_bot_gg.js
+
+# Allow the GitHub Actions workflow configuration files
+!.github/
+!.github/workflows/
+!.github/workflows/*.yml
